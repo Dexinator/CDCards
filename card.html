@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<link rel="stylesheet" href="style.css">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+
+</head>
+<div class="card" id="card">
+  <img src="hyper.png" alt="John" style="width:100%">
+  <h2><img src="CDLOGO.png" alt="John" style="width:30%"></h2>
+  <h1>Lobo de Hierro</h1>
+  <p class="title">Aventurero principiante</p>
+  <p>ID CH0001</p>
+  <a href="#"><i class="fa fa-anchor"></i></a>
+  <a href="#"><i class="fa fa-fire"></i></a>
+  <a href="#"><i class="fa fa-instagram"></i></a>
+  <a href="#"><i class="fa fa-bomb"></i></a>
+  <p><button onclick="imagen()">Miembro</button></p>
+</div>
+<script>
+  var element=document.getElementById("card");
+  function imagen(){
+  html2canvas(element).then(function(canvas) {
+      // Export the canvas to its data URI representation
+      var base64image = canvas.toDataURL("image/png");
+  
+      // Open the image in a new window
+      window.open(base64image , "_blank");
+  });
+}
+
+</script>
+
+</html>
