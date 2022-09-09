@@ -1,35 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<link rel="stylesheet" href="style.css">
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
 </head>
+
+
 <div class="card" id="card">
-  <img src="hyper.png" alt="John" style="width:100%">
-  <h2><img src="CDLOGO.png" alt="John" style="width:30%"></h2>
-  <h1>Lobo de Hierro</h1>
-  <p class="title">Aventurero principiante</p>
-  <p>ID CH0001</p>
-  <a href="#"><i class="fa fa-anchor"></i></a>
-  <a href="#"><i class="fa fa-fire"></i></a>
-  <a href="#"><i class="fa fa-instagram"></i></a>
-  <a href="#"><i class="fa fa-bomb"></i></a>
-  <p><button onclick="imagen()">Miembro</button></p>
+  <div>
+    <p>Obtener tarjeta</p>
+    <input type="text" name="ID" id="ID">
+    <br>
+    <br>
+    <button onclick="searchID()">Buscar</button> 
+    <p>Puntos: </p>
+    <input type="text" name="Points" id="Points">
+    <br>
+    <br>
+    <button onclick="points_update()">Buscar</button> 
+    <br>
+    <br>
+    <br>
+  </div>
+
+  <div id="member_card">
+    <img src="hyper.png" alt="John" style="width:100%" id="IMG">
+    <h2><img src="CDLOGO.png" alt="John" style="width:30%"></h2>
+    <h1 id="name">Lobo de Hierro</h1>
+    <p class="title">Aventurero principiante</p>
+    <p id="ID2">ID CH0001</p>
+    <a href="#"><i class="fa fa-anchor"></i></a>
+    <a href="#"><i class="fa fa-fire"></i></a>
+    <a href="#"><i class="fa fa-instagram"></i></a>
+    <a href="#"><i class="fa fa-bomb"></i></a>
+    <p><button onclick="imagen()">Miembro</button></p>
+  </div>
 </div>
 <script>
-  var element=document.getElementById("card");
+  var res;
+  function searchID(){
+    var selected_member=document.getElementById("ID").value;
+    console.log(selected_member);
+    res = [];
+    $.ajax({
+      type: "GET",
+      url: "memberinfo.php?selected_member="+selected_member,   
+      dataType: 'JSON',            
+      success: function(data){
+        var data = JSON.stringify(data);
+        var obj = JSON.parse(data);
+        for(var i in obj[0]){
+          res.push(obj[0][i]);
+        }
+        var datos_miembro = res;
+        console.log(datos_miembro);
+        var miembro_id=datos_miembro[0].toString();
+        var miembro_name=datos_miembro[1];
+        var miembro_imagen=datos_miembro[6];
+        var miembro_puntos=datos_miembro[8];
+        document.getElementById("name").innerHTML =miembro_name;
+        document.getElementById("ID2").innerHTML="ID:   "+miembro_id;
+        document.getElementById("IMG").src=miembro_imagen+".png";
+        document.getElementById("Points").value=miembro_puntos;
+
+      }
+    })
+  } 
+
+
+  var element=document.getElementById("member_card");
   function imagen(){
-  html2canvas(element).then(function(canvas) {
+    html2canvas(element).then(function(canvas) {
       // Export the canvas to its data URI representation
       var base64image = canvas.toDataURL("image/png");
-  
+
       // Open the image in a new window
       window.open(base64image , "_blank");
-  });
-}
+    });
+  }
 
 </script>
 
